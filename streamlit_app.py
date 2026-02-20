@@ -1,18 +1,16 @@
-import streamlit as st
+st.title("🚀 Data Analysis Accelerator")
+st.markdown("""
+### Enterprise Insurance Data Discovery & Standardization Platform
 
-st.set_page_config(page_title="Data Analysis Accelerator", layout="wide")
+Use the navigation panel on the left to:
 
-pages = {
-    "Data Analysis Accelerator": [
-        st.Page("pages/1_Upload_&_Profile.py", title="Upload & Profile", icon="📤"),
-        st.Page("pages/2_Field_Inventory.py", title="Field Inventory", icon="📋"),
-        st.Page("pages/3_Cross_Tab_Analyzer.py", title="Cross Tab Analyzer", icon="📊"),
-        st.Page("pages/4_Normalization_Engine.py", title="Normalization Engine", icon="🔄"),
-        st.Page("pages/5_Glossary_Builder.py", title="Glossary Builder", icon="📘"),
-        st.Page("pages/6_AI_Mapping_Assistant.py", title="AI Mapping Assistant", icon="🤖"),
-        st.Page("pages/7_Export_Center.py", title="Export Center", icon="📦"),
-    ]
-}
+• Upload and Profile Reports  
+• Build Field Inventory  
+• Perform Cross Tab Analysis  
+• Normalize Fields  
+• Generate Glossary  
+• Export Deliverables  
 
-pg = st.navigation(pages)
-pg.run()
+---
+Version 1.0
+""")
