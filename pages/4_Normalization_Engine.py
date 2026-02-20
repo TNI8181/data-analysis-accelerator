@@ -1,3 +1,3 @@
 import streamlit as st
 
-st.set_page_config(page_title="Data Analysis Accelerator", layout="wide")
+st.header("Something Awesome Brewing")
