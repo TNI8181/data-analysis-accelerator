@@ -1,6 +1,9 @@
 import streamlit as st
 
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
+st.set_page_config(
+    page_title="Data Analysis Accelerator",
+    layout="wide"
 )
+
+st.title("Data Analysis Accelerator")
+st.markdown("Select a module from the left navigation.")
