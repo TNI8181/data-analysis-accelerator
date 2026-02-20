@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Data Analysis Accelerator", layout="wide")
 
-st.title("🚀 Data Analysis Accelerator")
+st.title("Data Analysis Accelerator 🚀")
 st.caption("Enterprise Insurance Data Discovery & Standardization Platform")
 
 st.markdown("## Modules")
