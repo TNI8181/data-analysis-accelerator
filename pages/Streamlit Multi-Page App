@@ -1,0 +1,16 @@
+data_analysis_accelerator/
+│
+├── Home.py
+│
+├── pages/
+│   ├── 1_Upload_&_Profile.py
+│   ├── 2_Field_Inventory.py
+│   ├── 3_Cross_Tab_Analyzer.py
+│   ├── 4_Normalization_Engine.py
+│   ├── 5_Glossary_Builder.py
+│   ├── 6_AI_Mapping_Assistant.py
+│   └── 7_Export_Center.py
+│
+└── utils/
+    ├── file_reader.py
+    └── session_manager.py
