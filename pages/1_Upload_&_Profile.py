@@ -3,7 +3,7 @@ import pandas as pd
 
 st.title("📂 Upload & Profile Reports")
 
-#source_system = st.text_input("Source System Name")
+source_system = st.text_input("Source System Name")
 
 uploaded_files = st.file_uploader(
     "Upload report files",
