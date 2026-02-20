@@ -15,9 +15,9 @@ if "uploader_key" not in st.session_state:
     st.session_state["uploader_key"] = 0  # used to reset file uploader
 
 # ===================================================
-# 🔄 UPDATE RECORDS SECTION
+# 🔄 UPLOAD REPORTS SECTION
 # ===================================================
-st.header("🔄 Update Records")
+st.header("🔄 Upload Reports")
 
 uploaded_files = st.file_uploader(
     "Upload report files (Excel or CSV)",
