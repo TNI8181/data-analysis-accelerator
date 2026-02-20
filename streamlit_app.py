@@ -1,3 +1,3 @@
 import streamlit as st
 
-st.switch_page("pages/Upload & Profile.py")
+st.switch_page("pages/1_Upload_&_Profile.py")
