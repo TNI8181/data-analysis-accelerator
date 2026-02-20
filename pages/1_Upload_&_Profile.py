@@ -3,11 +3,10 @@ import pandas as pd
 from datetime import datetime
 
 st.set_page_config(page_title="Data Analysis Accelerator", layout="wide")
-
 st.title("📂 Data Analysis Accelerator")
 
 # ---------------------------------------------------
-# Initialize Session State
+# Session State
 # ---------------------------------------------------
 if "profile_df" not in st.session_state:
     st.session_state["profile_df"] = pd.DataFrame()
@@ -20,23 +19,27 @@ if "uploader_key" not in st.session_state:
 # ===================================================
 st.header("🔄 Update Records")
 
-col1, col2 = st.columns([1, 1])
-
-with col1:
-    if st.button("🧹 Clear Update Records", use_container_width=True):
-        st.session_state["profile_df"] = pd.DataFrame()
-        st.session_state["uploader_key"] += 1  # forces file uploader reset
-        st.success("Update section cleared.")
-
-with col2:
-    process = st.button("✅ Process Files", use_container_width=True)
-
 uploaded_files = st.file_uploader(
     "Upload report files (Excel or CSV)",
     type=["xlsx", "csv"],
     accept_multiple_files=True,
     key=f"uploader_{st.session_state['uploader_key']}"
 )
+
+# Buttons BELOW uploader (as requested)
+btn1, btn2 = st.columns([1, 1])
+
+with btn1:
+    clear_update = st.button("🧹 Clear Update Records", use_container_width=True)
+
+with btn2:
+    process = st.button("✅ Process Files", type="primary", use_container_width=True)
+
+if clear_update:
+    st.session_state["profile_df"] = pd.DataFrame()
+    st.session_state["uploader_key"] += 1  # forces file uploader reset
+    st.success("Update section cleared.")
+    st.stop()
 
 if process:
     if not uploaded_files:
