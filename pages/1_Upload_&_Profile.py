@@ -30,7 +30,7 @@ uploaded_files = st.file_uploader(
 btn1, btn2 = st.columns([1, 1])
 
 with btn1:
-    clear_update = st.button("🧹 Clear Update Records", use_container_width=True)
+    clear_update = st.button("🧹 Clear Records", use_container_width=True)
 
 with btn2:
     process = st.button("✅ Process Files", type="primary", use_container_width=True)
@@ -46,7 +46,7 @@ if process:
         st.warning("Please upload at least one file.")
         st.stop()
 
-    upload_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    #upload_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     profile_rows = []
 
     for f in uploaded_files:
@@ -57,7 +57,7 @@ if process:
                     profile_rows.append({
                         "Report Name": f.name,
                         "Column Name": str(col),
-                        "Upload Time": upload_time
+                        #"Upload Time": upload_time
                     })
             else:
                 xls = pd.ExcelFile(f)
@@ -67,7 +67,7 @@ if process:
                         profile_rows.append({
                             "Report Name": f.name,
                             "Column Name": str(col),
-                            "Upload Time": upload_time
+                            #"Upload Time": upload_time
                         })
         except Exception as e:
             st.error(f"Error reading {f.name}: {e}")
