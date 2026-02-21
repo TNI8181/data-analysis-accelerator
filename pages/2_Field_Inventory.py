@@ -1,72 +1,64 @@
 import streamlit as st
 import pandas as pd
 
-st.title("Field Inventory")
+st.title("2) 🧾 Field Inventory")
 
-# -------------------------------
-# Check Session State
-# -------------------------------
-if "uploaded_files" not in st.session_state:
-    st.warning("No files found. Please go to Home and upload files first.")
-    st.stop()
+def ensure_uploads():
+    if "uploaded_files" not in st.session_state:
+        st.warning("Upload files first (go to Upload & Profile).")
+        st.stop()
 
-uploaded_files = st.session_state["uploaded_files"]
-source_system = st.session_state.get("source_system", "Unknown")
-
-st.success(f"Source System: {source_system}")
-st.write(f"Files Loaded: {len(uploaded_files)}")
-
-# -------------------------------
-# Build Field-Level Inventory
-# -------------------------------
-field_rows = []
-
-for f in uploaded_files:
-    try:
-        if f.name.lower().endswith(".csv"):
-            df = pd.read_csv(f)
-            report_label = f.name
-
-            for col in df.columns:
-                field_rows.append({
-                    "report_name": report_label,
-                    "column_original": str(col)
-                })
-
-        else:
-            xls = pd.ExcelFile(f)
-            for sheet in xls.sheet_names:
-                df = xls.parse(sheet)
-                report_label = f.name  # NO sheet name per your requirement
-
+def build_field_inventory(uploaded_files):
+    rows = []
+    for f in uploaded_files:
+        try:
+            if f.name.lower().endswith(".csv"):
+                df = pd.read_csv(f)
                 for col in df.columns:
-                    field_rows.append({
-                        "report_name": report_label,
-                        "column_original": str(col)
+                    rows.append({
+                        "report_name": f.name,              # ✅ file name only
+                        "column_original": str(col)         # ✅ never modified
                     })
+            else:
+                xls = pd.ExcelFile(f)
+                for sheet in xls.sheet_names:
+                    df = xls.parse(sheet)
+                    for col in df.columns:
+                        rows.append({
+                            "report_name": f.name,          # ✅ file name only (ignore sheet)
+                            "column_original": str(col)
+                        })
+        except Exception as e:
+            st.error(f"Could not process {f.name}: {e}")
+    return pd.DataFrame(rows)
 
-    except Exception as e:
-        st.error(f"Could not process {f.name}: {e}")
+def clear_this_page():
+    for k in ["field_df", "cross_tab_df", "mapping_df", "normalized_field_df", "glossary_df"]:
+        if k in st.session_state:
+            del st.session_state[k]
 
-field_df = pd.DataFrame(field_rows)
+ensure_uploads()
 
-if field_df.empty:
-    st.warning("No fields found.")
-    st.stop()
+top1, top2, top3 = st.columns([1, 1, 2])
+with top1:
+    if st.button("🔄 Rebuild Inventory"):
+        st.session_state["field_df"] = build_field_inventory(st.session_state["uploaded_files"])
+with top2:
+    if st.button("🧹 Clear Inventory Outputs"):
+        clear_this_page()
+        st.rerun()
+
+if "field_df" not in st.session_state:
+    st.session_state["field_df"] = build_field_inventory(st.session_state["uploaded_files"])
+
+field_df = st.session_state["field_df"]
 
 st.subheader("Raw Field Inventory")
+st.caption("report_name = file name only. column_original preserved exactly.")
 st.dataframe(field_df, use_container_width=True)
 
-# -------------------------------
-# Cross Tab (X / Blank)
-# -------------------------------
-st.subheader("Report vs Field Cross Tab")
+csv_bytes = field_df.to_csv(index=False).encode("utf-8")
+st.download_button("⬇️ Download Field Inventory (CSV)", data=csv_bytes, file_name="field_inventory.csv", mime="text/csv")
 
-cross_tab = pd.crosstab(
-    field_df["column_original"],
-    field_df["report_name"]
-)
-
-cross_tab = cross_tab.applymap(lambda v: "x" if v > 0 else "")
-
-st.dataframe(cross_tab, use_container_width=True)
+if st.button("➡️ Next: Cross Tab Analyzer"):
+    st.switch_page("pages/3_Cross_Tab_Analyzer.py")
